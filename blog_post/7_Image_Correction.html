@@ -1,0 +1,72 @@
+Sunglint occurs when sunlight reflects off the water surface and into the satellite optical
+ sensors. This effect typically happens under conditions favorable for benthic habitat 
+ classification: clear skies, shallow waters (where wind easily creates waves), 
+ and imagery with high spatial resolution. The Hedley algorithm helps to remove or 
+ minimize sunglint, allowing for more accurate measurements of water optical properties.
+The approach is based on two main assumptions:
+<ol>
+    <li>
+    The brightness in the Near-Infrared (NIR) band is composed solely of sunglint,
+    with no benthic (seafloor) contribution.
+    </li>
+    <li>
+        Linear Relationship: The amount of sunglint in the visible bands (green, blue, red) is linearly correlated with the brightness in the NIR band. This is based on the fact that the refractive index is similar for NIR and visible bands, so the amount of light reflected in NIR by the water surface is related to the amount of light reflected in the visible bands.
+    </li>
+</ol>
+
+
+To estimate the linear relationship, a region of deep water within the image is typically used. The required characteristics of such a region are as follows:
+<ol>
+    <li> The pixel brightness is expected to be uniform and free from sun glint.</li>
+    <li> The region should exhibit a range of sun glint to allow for accurate estimation.</li>
+</ol>
+For each visible band, the brightness is linearly regressed against the NIR brightness. If the 
+regressed line for band \(B_i\) has slope \(b_i\)​, then the deglinted reflectance is calculated
+as:
+$$R_i^{deg}=R_i−bi(R_{NIR}−R_{NIR}^{min}) \tag{1}$$
+where \(R_{NIR}^{min}\)​ represents the reflectance of a pixel with no sun glint and can be
+estimated as the minimum NIR value found in the entire image or the regression sample.
+Non-submerged pixels should be excluded from the regression, and the correction should 
+not be applied to such pixels. <br>
+In addition to sunglint correction, we apply a simplified Lyzenga approach to correct images 
+for reflectance attenuation due to the water column effect. 
+The Lyzenga method classifies seabed types using depth-invariant indices. It is based on a 
+radiative transfer equation that expresses the exponential relationship between radiance
+and water depth :
+$$R_{0}^i - R_\infty^i = (L_{b}^i - L_\infty^i) e^{-2K^i z} \tag{2}$$
+
+where  \(L_0^i\) is the BOA reflectance for band i,  \(L_\infty^i\) is the deep water reflectance
+for band i and  \(K^i\) is the diffuse attenuation coefficient for band i.
+The exponential relation between reflectance and depth can be linearized taking the natural 
+logarithm, leading to :
+
+   $$ DII_{i, j} = X_i -\frac{ K^i}{K^i}\cdot  X_j \tag{3}\label{3} $$
+
+where \(X_i = ln(R_0^i - R_\infty^i)\). \(DII\) stands for depth-invariant index, since the
+quantity it denotes  does not depend on z.
+The above equation is valid under the assumption that the diffuse attenuation coefficient  is
+spatially constant given an invariant level of turbidity. The logarithmic radiance \(X_i\)  
+depends linearly on z.  Given an image of a coastal area, if we know different pixels at 
+different depths for a given bottom type (e.g., sand, sediment, seagrass), plotting the log-corrected 
+radiances of those pixels versus the depth ideally define a straight line in the Cartesian plane
+with the log-corrected radiance on the y-axis and the depth on the x-axis. 
+The intersection with the y-axis depends only on the bottom type. In theory, this intersection 
+could serve as an invariant index identifying the bottom type.  However, in order to do so 
+we would need to estimate the attenuation coefficient for each band. On a practical level it’s 
+easier to estimate the ratio of attenuation coefficients, which is why \(DII\) as defined in 
+equation \ref{3} are used instead.
+The attenuation coefficients should be determined either by fitting reflectances vs depth
+or by in situ measurements. If none of those approaches are feasible, we can compute the 
+attenuation coefficients statistically from the image. Indeed, choosen two bands \(B_i\), \(B_j\), 
+if we think of plotting in the cartesian plane the log-radiance vs depth for all the pixels of 
+the image, we would obtain a set of parallel lines, all with the same slope given by the ratio
+ of the attenuation coefficients \(K_i\), \(K_j\). 
+ Each different line would  correspond to values taken across different bottom types. 
+ If we perform  the minimization of the deviations perpendicular to the regressed line 
+ (Edwards and Mumby 1999) then the formula for the slope is given by
+ $$ \frac{K_i}{K_i} = a + \sqrt{a^2 + 1}, \quad a = \frac{\sigma_{ii}-\sigma_{jj}}{\sigma_{ij}}$$ 
+ where \(\sigma_{ij}\) is the covariance of bands \(i, j\), and \(\sigma_{ii}\) and \(\sigma_{jj}\)
+ are the variances of bands \(i\) and \(j\) respectively. <br>
+ The code used for deglinting and water column correction is availabe here <a href="https://dagshub.com/Omdena/TriesteItalyChapter_MappingSeagrassMeadows/src/main/final_pipeline_code/image-preprocessing-visualization.ipynb">
+    DashHub Official Repo
+ </a>

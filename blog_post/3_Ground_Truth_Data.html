@@ -1,0 +1,52 @@
+One of the primary challenges encountered in our project revolved around securing 
+high-quality ground truth (GT) data for training purposes. 
+Our strategy was to procure vector-based georeferenced data regarding seagrass 
+habitats in the Mediterranean region. From there, our aim was to translate this 
+spatial information into pixel-level data within our chosen satellite imagery. 
+Our objective was to conduct semantic segmentation on satellite imagery, which requires 
+GT data in the form of image-mask pairs. Such masks classify each pixel by assigning 
+it to predefined categories, including seagrass. We therefore looked out for datasets 
+containing georeferenced polygons outlining complete seagrass patches within specific 
+Mediterranean regions. These polygons, typically stored in formats like GeoJSON or 
+shapefile, formed the basis of our segmentation task.This approach provided an adaptable 
+framework for generating ground truth data, capable of accommodating various data formats 
+and satellite imagery selections.
+Initially, our search for seagrass data led us to  the <a href="https://www.gbif.org/">GBIF</a> platform, 
+where we expected to find readily available information in the form of presence/absence
+ data. GBIF presence/absence data essentially consist of point coordinates indicating 
+ areas where seagrass presence has been confirmed through various methodologies. 
+ However, while abundant, the presence/absence data posed a significant imbalance issue,
+being skewed towards confirming seagrass presence rather than absence. As a result,
+we encountered a lack of comprehensive classification of seagrass/non-seagrass pixels 
+in our target regions. This limitation hindered our ability to proceed with 
+segmentation tasks, as we lacked reliable data on non-seagrass areas. 
+Therefore, we decided to focus on other data sources.
+Large scale georeferenced data of seagrass extents in the Mediterranean is typically
+provided by governmental or intergovernmental resources such as EMODnet, 
+and UNEP-WCMC.
+These databases do not necessarily agree on the spatial extent of seagrass meadows, 
+as the data they contain often come from different time points. Although these discrepancies 
+were highlighted in research articles from 2016 and again in 2019, they remain unresolved. 
+Additionally, some databases include datasets with incorrect georeferencing that have not 
+been corrected. Retrieving metadata regarding the origin of the data from these databases 
+can also be challenging for non-expert users. Our search for relevant datasets led us to contact
+several authors of published studies. We meticulously assessed the datasets based on factors 
+such as the date of collection, the accuracy of georeferencing, and the methodologies employed.
+After this thorough evaluation, we decided to select two regions for our project due to the 
+reliability and recency of their data. These datasets included a map of seagrass 
+presence/absence in the Greek seas , published and openly accessible by a university 
+consortium <a  href="#GreekDataset">[11]</a>, and a map of seagrass presence/absence in the Croatian sea, measured by 
+Croatian governmental authorities and freely accessible online through a coding interface <a  href="#CroatiaDataset">[13]</a>. 
+Neither dataset included information about the presence of dead seagrass beds or the health 
+(e.g., photosynthetic activity or density) of the seagrass beds.
+We were aware of other georeferenced datasets of seagrass presence/absence in the Mediterranean 
+Sea but excluded them for various reasons. These included seagrass beds in the Balearic Islands, 
+Malta, Italy, and France. While the Balearic seagrass bed extents are well-documented and 
+publicly available online, the provided files date back to 2008, and the actual extent of the 
+seagrass beds may have changed since then. Although Malta recently mapped its seagrass bed extents,
+ our request to download the corresponding shapefiles went unanswered for months. 
+ The French and Italian seagrass extents are stored in publicly available databases, 
+ but these often lack metadata on when and how the mapping was conducted. 
+ Additionally, these databases do not agree on the extents, and there are indications that 
+ some of the data are at least five years old—a period during which seagrass beds may have 
+ undergone changes.

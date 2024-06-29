@@ -1,0 +1,79 @@
+The model training ran for 37 epochs. The training curves graphs are shown below while the metrics
+for each of the 3 classes are reported in <a href="#performance">Table 1</a>.
+
+<div class="container">
+    <div class="image">
+        <figure id="loss">
+            <img src="Loss.png" />
+            <figcaption>a - Loss variation during the training process</figcaption>
+        </figure>
+    </div>
+    <div class="image">
+        <figure id="IOU">
+            <img src="IOU.png" />
+            <figcaption>c -  IOU score variation during the training process</figcaption>
+        </figure>
+    </div>
+    <div class="image">
+        <figure id="accuracy">
+            <img src="accuracy.png" />
+            <figcaption>d - Accuracy variation during the training process
+            </figcaption>
+        <figure>
+    </div>
+    <div class="image">
+        <figure id="dice">
+            <img src="dice_coeff.png" />
+            <figcaption>b - Dice coefficient variation during the training process</figcaption>
+        </figure>
+    </div>
+</div>
+<table id="performance">
+    <tr>
+        <th>Classes </th>
+        <th>Dice Coefficient (%)</th>
+        <th>IOU score (%)</th>
+    </tr>
+    <tr>
+        <td>
+            Seagrass
+        </td>
+        <td>
+            58.63
+        </td>
+        <td>
+            41.48
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Sea
+        </td>
+        <td>
+            85.75
+        </td>
+        <td>
+            75.06
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Land
+        </td>
+        <td>
+            99.18
+        </td>
+        <td>
+            98.37
+        </td>
+    </tr>
+    <tr>
+        <th>Mean Score </th>
+        <th>81.2</th>
+        <th>71.64</th>
+    </tr>
+    <caption>
+        Table 1 - Performance assessment on the test dataset
+    </caption>
+
+</table>

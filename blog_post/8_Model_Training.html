@@ -1,0 +1,78 @@
+As stated before, after multiple training experiments, using the models mentioned above on the
+dataset, it was observed that UNet performed better than all other models/algorithms 
+(even its superior variants UNet++ & UNet3+) during preliminary optimization rounds.
+UNet is a very popular architecture which was developed to segment medical images. 
+It is a fully convolutional Neural network architecture, which consists of 2 parts: 
+Encoder & Decoder. Encoder network tries to extract features from the image while Decoder 
+network tries to upscale the features maps to original image size. 
+There are also skip connections between Encoder and Decoder networks, 
+to retain the spatial information lost during upsampling.
+
+<img src="u-net-architecture.png" alt="UNet">
+
+<h3>Our Unet model architecture</h3>
+We wrote a UNet architecture from scratch in python using the tensorflow framework. 
+For the development we used Kaggle notebooks. Out augmented dataset g was stored 
+on Kaggle and it was directly used as input for model training. 
+The pre-processing steps mentioned in the previous section (Sunglint correction and  Water column correction)
+were performed on the fly with the help of the tf.data.Dataset object. The images were MinMax 
+normalized per channel after applying the corrections. We decided to feed in images in batch size
+of 32. The number of filters was increased from 16 to 256  in the Encoder part of the architecture. 
+The feature map size was reduced by half using a MaxPooling layer. To upsample the feature map 
+size, the Conv2DTranspose layer was used in the Decoder part of the architecture. 
+To prevent overfitting we employed 2 approaches:
+<ol>
+    <li>
+        BatchNormalization was applied before ReLU activation for each Convolution layer in the model.
+    </li>
+    <li>
+        L2 Kernel regularizer was used for each Convolution layer in the model.
+    </li>
+</ol>
+The last layer had 3 filters, one for each of the classes i.e. seagrass, sea and land with 
+softmax activation applied on them to get output as probabilities. These parameters were found
+empirically. We also tried different number of filters in UNet, starting with 32 - 512 and 64 - 1024
+in the Encoder part, but both configurations tended to overfit very heavily. 
+Likewise, we tried using Dropout instead of Batch Normalization to reduce overfitting, 
+but Dropout yielded inferior results. Finally, omitting kernel regularization also led to 
+inferior results.
+Adam optimizer with initial learning rate of 0.0001 was used to update the model weights
+during training. We tapered the learning rate every 5 epochs using an exponential decay
+Learning Rate Scheduler. As an altenative approach, we tried using Cosine Decay for decreasing the
+learning rate to a given value during training, but that didn't improve over simple Step Exponential decay. 
+We also employed the callbacks Early Stopping and Model Checkpoint to prevent overfitting and saving the best model respectively. 
+The validation loss (val_loss) was monitored for both the callbacks with patience=5 
+for Early Stopping.<br>
+One of the biggest improvement in seagrass prediction was achieved when we 
+switched  to segmentation-specific loss functions. Since the dataset was imbalanced,
+we needed losses and metrics which would focus on the minority class (seagrass in our dataset)
+and would penalize wrong predicitons for the minority class.
+Two such losses which served our purpose were: Dice loss and Focal Tversky loss. 
+We calculated a total loss as a combination of the two. We tried out different 
+combinations of weights for tne combined losses. It turned out that giving more weight to Focal Tversky 
+loss over Dice loss worked best for our case. <br>
+The Dice loss is derived from the Dice coefficient, which is similar to the IOU (Intersection Over Union)
+score, but it assigns more weight to True Positives :
+$$ \text{Dice Loss} =  1 - \text{Dice Coefficient}$$
+$$ \text{Dice Coefficient} = \frac{2\cdot TP}{FP + 2\cdot TP + FN}$$
+The Focal Tversky loss is obtained from Tversky Index, a generalization of both Dice coefficient 
+and the Jaccard Index. The Tversky index adds two parameters, \(\alpha\) and \(\beta\), where 
+\(\alpha + \beta = 1\).The Focal Tversky loss is further generalization of Tversky loss, 
+which uses another parameter, \(\gamma\), controlling the non-linearity of the loss. 
+We chose \(\alpha = 0.7\) and \(\beta = 0.3\) and \(\gamma = 5.\). We chose an \(\alpha\) greater
+\(\beta\) because False Negatives were more important
+to us than False Positives (we didn’t want to miss out any region where there was seagrass
+ resent and the model predicted otherwise). 
+ We explored different hyperparameter values but the above choice yielded the best results.
+ $$ \text{Tversky Index} = \frac{TP}{TP + \alpha\cdot FN + \beta\cdot FP}$$
+ $$ \text{Focal Tversky Loss} = (1 - \text{Tversky Index})^\gamma $$
+ As already stated, we used a combination of those losses for out total loss 
+ $$\text{Total Loss} = \text{Dice Loss} + 2\cdot\text{Focal Tversky Loss} $$
+ We adopted the Dice Coefficient as the primary metric, but we also kept track  IOU and accuracy
+as auxiliary metrics
+$$ \text{IOU Score} = \frac{TP}{TP + FP + FN}$$
+$$ \text{Accuracy} = \frac{TP + TN}{TP + TN + FP + FN}$$
+<h3>Computational Resources</h3>
+The model was trained using Kaggle kernel with NVIDIA TESLA P100 GPU and 
+the training took approximately 2 hours.
+ 

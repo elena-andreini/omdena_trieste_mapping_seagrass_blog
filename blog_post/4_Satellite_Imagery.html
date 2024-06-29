@@ -1,0 +1,49 @@
+Sentinel-2, an European satellite mission, offers wide-swath (290 km) coverage 
+and high-resolution imagery at 10 m, 20 m, and 60 m spatial resolutions. 
+With twin satellites orbiting 180° apart, Sentinel-2 provides several advantages
+for mapping seagrass habitats:
+<ol>
+<li>High revisit time: Sentinel-2 offers frequent revisits, with a 10-day frequency
+    at the equator (or 5 days with two satellites under cloud-free conditions), 
+    facilitating the capture of clear images.
+</li>
+<li>
+    Multi-spectral bands: With 13 spectral bands including visible, near-infrared, 
+    and short-wave infrared, Sentinel-2 provides diverse spectral information 
+    necessary for differentiation of seagrass habitats from surrounding substrates.
+</li>
+<li>
+    Open access: Sentinel-2 imagery is easily accessible through the Copernicus Open
+    Access Hub, eliminating cost barriers and enabling researchers to obtain data 
+    conveniently.
+</li>
+<li>
+    Atmospheric correction: Sentinel-2 Level-2A data comes with built-in atmospheric
+    correction, ensuring minimized atmospheric effects and reliable reflectance 
+    values essential for further analysis
+</li>
+</ol>
+
+The signal captured by the satellite's optical sensors encompasses both the 
+reflectance from the Earth’s surface and atmospheric effects, such as scattering
+ and absorption. To address these atmospheric effects, radiative transfer models 
+ are employed. These models simulate how light interacts with the atmosphere and 
+ the Earth’s surface, considering various atmospheric parameters like ozone 
+ concentration, water vapor content, and aerosol optical thickness. 
+ They allow us to estimate the true surface reflectance, referred to as 
+ Bottom of the Atmosphere (BOA), by mitigating the atmospheric contributions.
+For our seagrass mapping task, we required BOA images. Hence, we opted for 
+Sentinel-2 L2A images, which come pre-corrected for atmospheric effects tailored 
+to Sentinel-2's sensor properties. This choice was made for its simplicity and 
+due to time constraints preventing further preprocessing improvements within our
+project timeframe.
+We trained different models on the L2A images, using basic image normalization
+ as the only preprocessing step to establish a baseline. However, 
+ additional preprocessing before training is commonly adopted. 
+ One reason is that when capturing images of underwater environments using 
+ optical sensors, the water column interferes with the signal received from 
+ the seafloor. Similar to the atmosphere, the water column absorbs and scatters 
+ light, making it desirable to remove this effect. Additionally, direct light 
+ reflection towards the sensor can affect the quality of the images under 
+ certain conditions, so this effect should also be removed. The steps for 
+ further image processing are described in Part 7 - Image Correction

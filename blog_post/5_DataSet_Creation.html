@@ -1,0 +1,74 @@
+From the beginning, we leaned in choice of segmentation model
+towards UNets, as a UNet-based approach had led to the best 
+result for seagrass bed segmentation reported in literature 
+(reference). Fixed-size inputs are also required for a number
+of other machine learning strategies that perform segmentation
+or pixel-level classification. We therefore decided to create 
+a dataset of fixed size images to maximize the number of 
+different machine learning approaches we can try. We chose a 
+standard image size of 256 times 256 pixels - a size that is 
+frequently encountered in literature. Moreover, we wanted to 
+make use of the high spatial resolution of the Sentinel-2 
+mission, and aimed to download images with a resolution of 
+10 m x 10 m per pixel. This “high” resolution can complicate 
+Sentinel-2 image download as not all satellite bands have such
+a high resolution. We therefore decided to download 
+Sentinel-2 images through the GEE (Google Earth Engine) 
+package for python; here, a systematic framework on how to 
+download low resolution bands to a higher resolution is 
+automatically provided. And this does what. Even though 
+there are methods how to reliably interpolate a higher 
+resolution for lower resolution bands 
+(e.g. the Sen2Res plugin for SNAP - DOI:10.1109/TGRS.2017.2694881),
+we did not use them due to computational and time constraints.
+Instead, we used the images as provided by the google earth 
+engine for further processing. Out of the 13 bands in the Sentinel-2
+images, we downloaded the images with the following 12 bands :  B1, B2, B3, B4, B5, B6, B7, B8, B8A,
+B9, B11, B12. Next, we divided the marine areas of Greece and 
+Croatia into a regular grid of 2560 x 2560 m squares (to 
+obtain images of 256 pixels x 256 pixels with a 10 m 
+resolution). Initially, we thought about more sophisticated
+methods to define regions of interests. For example, we 
+thought about drawing regular rectangles around a seagrass 
+bed polygon’s center. However, in general pixels of seagrass
+beds made up a small percentage of total water pixels of any 
+image of 2560 m x 2560 m for both Greece and Croatia. Just
+dividing these two marine areas by a regular grid yielded the 
+highest number of images where at least 5% of the water pixels
+would belong to seagrass bed areas. On the flipside, using a 
+regular grid also led to some images having no seagrass beds 
+in them at all. We decided that taking a single image per site
+could potentially introduce errors. There is the option when 
+downloading Sentinel-2 images through google earth engine to 
+take average images for a given time period. However, we were 
+unsure about which biases this may introduce and if training a 
+machine learning algorithm on a low-variance dataset may 
+reduce the predictive power of the model. Therefore, we settled on 
+taking two images (recorded on different days) per site. During our 
+preliminary research, we had learned that all species of seagrass
+exhibit seasonal variance in their color (cfr. e.g. <a ref="#Sandoval22">[6]</a>). Thus, we
+anticipated that it would be better to narrow down the time 
+period in which to take a set of duplicate images. Since we 
+could not find information in the literature which time of the
+year would be best, we decided for two seasons - summer 
+(date range: 2022-06-15 to 2022-08-15) and winter (date range: 2022-12-15 to 2023-02-15) 
+from the image collection COPERNICUS/S2_SR_HARMONIZED. This Sentinel-2 product 
+allows for easy filtering for clouds in order to get cloud free images for further
+processing. We then used a standardized python protocol to download Sentinel-2
+images of interest for the given time periods through the Google Earth Engine API.
+Download was performed through the accounts of several users involving more than a 
+dozen collaborators. Participants would then use standardized python protocols - 
+mainly based on the python library rasterio - to create masks for land, 
+water, and seagrass directly based on the open-source GT data from Greece and Croatia,
+as well as land masks based on the OpenStreetMap project (downloaded in February 2024).
+These resulted in two data sets of raw Sentinel-2 images and corresponding masks - 
+one for winter months and one for summer months. In total, this resulted in 16000 
+images (approximate) from both the regions.
+
+
+
+
+
+
+
+

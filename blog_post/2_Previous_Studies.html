@@ -1,0 +1,36 @@
+The integration of remote sensing data with machine learning (ML) technologies presents a transformative 
+opportunity to develop autonomous and scalable monitoring systems. 
+However, the application of these systems to seagrass meadows remains 
+challenging due to several limitations in current approaches. 
+These include sparse satellite imagery, inadequate metrics for model 
+evaluation, and insufficient ground truth data, resulting in 
+proof-of-concept rather than operational solutions.
+We attempted to contribute to solving those challenges by undertaking a 
+project entirely based on freely available imagery and ground truth data. 
+Our goal was to potentially cover different areas of the Mediterranean and 
+make both our results and methodologies publicly accessible. 
+We aimed to facilitate further exploration and collaboration in 
+the field of seagrass monitoring and conservation.
+
+Our literature review highlighted several frequently employed algorithms, 
+such as Support Vector Machines (SVM), Random Forests, 
+gradient boosting models like LGBM, and segmentation models like UNet. 
+These algorithms have significantly enhanced the accuracy and efficiency 
+of mapping efforts, underscoring their importance in the field of marine 
+ecosystem monitoring.
+
+There have been a great number of works based on the aforementioned 
+architectures or proposing new models and variations.
+
+For an example of usage of RF see  <a href="#Traganos19">[10]</a> .
+The study utilized Google Earth Engine (GEE) to map the extent of Posidonia oceanica
+seagrass across a bioregional scale covering 22 Mediterranean countries (56,783 km2). 
+It processed 279,186 Sentinel-2 satellite images from 2015 to 2019 using the Random Forests (RF)
+algorithm for classification. Training data included 62,928 annotated pixels representing
+different benthic classes. Validation was done with 2,480 independent field-based points,
+achieving an overall accuracy ranging from 64% to 79% depending on the region.
+In a recent paper using UNet, see DOI:10.1109/I2MTC48687.2022.9806535, the authors trained
+a model using high-resolution satellite images from the Apulian coastline to perform pixel-wise 
+classification of land, seawater, and seagrass meadows. 
+After training, it was evaluated on a separate set of test images, 
+achieving highly promising classification results with an IoU score of 0.83.

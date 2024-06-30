@@ -44,7 +44,12 @@
     <script src="content_provider.js" type="text/javascript"></script> 
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=default"></script>
     
-    
+    <script>
+        function showHighResImage() {
+          const img = document.querySelector('img');
+          img.src = 'unet_summer_images_augmented_wcc_final.h5.svg';
+        }
+    </script>
     <script>
         var quotes = document.getElementsByTagName('q');
         for (var i in quotes) {

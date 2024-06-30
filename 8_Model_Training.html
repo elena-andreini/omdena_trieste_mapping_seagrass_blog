@@ -8,7 +8,7 @@ network tries to upscale the features maps to original image size.
 There are also skip connections between Encoder and Decoder networks, 
 to retain the spatial information lost during upsampling.
 
-<img src="u-net-architecture.png" alt="UNet">
+<img src="u-net-architecture.png"  alt="UNet">
 
 <h3>Our Unet model architecture</h3>
 We wrote a UNet architecture from scratch in python using the tensorflow framework. 
@@ -36,6 +36,25 @@ in the Encoder part, but both configurations tended to overfit very heavily.
 Likewise, we tried using Dropout instead of Batch Normalization to reduce overfitting, 
 but Dropout yielded inferior results. Finally, omitting kernel regularization also led to 
 inferior results.
+
+<!--img src="unet_summer_images_augmented_wcc_final.h5.svg" width="150" height="500" alt="OurUNet"-->
+<!--div-->
+<!--object data="unet_summer_images_augmented_wcc_final.h5.svg" width="300" height="300"> </object-->
+<!--/div-->
+<!--div class="image-container">
+<img src="unet_summer_images_augmented_wcc_final.h5.svg" width="300" height="300" alt="Tall Image">
+</div-->
+<div  style="padding: 50px 50px">
+    <a href="#" onclick="window.open('unet_summer_images_augmented_wcc_final.h5.svg', 'newName', 'width=300, height=250'); return false;">
+    <div class="image-container">
+
+        <img src="unet_summer_images_augmented_wcc_final.h5.svg" alt="Cropped image" >
+
+        <!--img src="unet_summer_images_augmented_wcc_final.h5.svg" width="300" height="300" alt="Tall Image"-->
+    </div>
+</a>
+</div>
+
 Adam optimizer with initial learning rate of 0.0001 was used to update the model weights
 during training. We tapered the learning rate every 5 epochs using an exponential decay
 Learning Rate Scheduler. As an altenative approach, we tried using Cosine Decay for decreasing the

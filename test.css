@@ -196,18 +196,28 @@ pre {
 figure {
   margin: 0 0 1rem;
 }
-img {
-  border-style: none;
-}
+
 img {
   max-width: 450px;
-  max-height: 450px;
+  max-width: 450px;
+  /*height: auto;*/
   display: block;
   margin-left: auto;
   margin-right: auto;
+  object-fit: contain;
+  border-style: none;
+  transition: transform .5s;
 }
+
 svg {
   vertical-align: middle;
+}
+object{
+  transition: transform .5s;
+}
+object:hover {
+  width:"auto";
+  height:"auto";
 }
 svg {
   overflow: hidden;
@@ -246,6 +256,14 @@ label {
   text-align: center
 
 }
+.image-container {
+  width: 80vw; /* Adjust width as needed */
+  height: 80vh; /* Adjust height as needed */
+  overflow: auto;
+  border: 1px solid #ccc;
+  background-color: white;
+}
+
 
 table {
   border-collapse: collapse; /* Combine borders */

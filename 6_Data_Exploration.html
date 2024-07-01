@@ -26,28 +26,30 @@ for the class imbalance of seagrass bed pixels (e.g., through class weights),
 we couldn't optimize our Random Forest model for seagrass bed detection beyond a Jaccard
 score of around 10% for that pixel class (while water and land pixel classification reached
 Jaccard scores of around 76% and 92%, respectively). Due to computational and time constraints,
-we discontinued our efforts with Random Forest. Given that the literature mainly discussed neural
+we discontinued our efforts with Random Forest. 
+<p>Given that the literature mainly discussed neural
 network approaches as more promising, we decided to focus on these.
 Initially, we considered various neural network architectures: DeepLabV3+, UNet variants
 (UNet++ and UNet3+), and Segformer. However, it quickly became clear that these models required
-heavy customization for our particular problem. We thus decided to focus on the simpler UNet,
+heavy customization for our particular problem. We thus, decided to focus on the simpler UNet,
 which had shown early promise and had been reported in the literature as effective for seagrass
-bed segmentation. While training UNet models, we observed that the performance on winter images
+bed segmentation.</p> 
+<p>While training UNet models, we observed that the performance on winter images
 was very poor compared to summer images. Therefore, we decided to proceed with summer images
-to maximize model effectiveness and improve the accuracy of our seagrass detection efforts.
+to maximize model effectiveness and improve the accuracy of our seagrass detection efforts.</p>
 This decision was reasonable: during the summer, seagrass beds in the Mediterranean are often
 at their peak in terms of biomass and coverage. Warmer water temperatures and increased sunlight
 promote vigorous growth, resulting in lush and expansive seagrass meadows. 
 In contrast, winter images present challenges due to reduced seagrass biomass, 
 increased turbidity from winter storms, and limited sunlight penetration, making it more 
 difficult to accurately identify and delineate seagrass beds from satellite imagery.
-Lastly, we decided to shrink our initial dataset. Despite using a standardized download protocol,
+<p>Lastly, we decided to shrink our initial dataset. Despite using a standardized download protocol,
 some images were mislabeled or only partially loaded. We also reckoned that using images with
-a higher percentage of seagrass bed pixels would enhance model training and performance.
+a higher percentage of seagrass bed pixels would enhance model training and performance.</p>
 We applied two filtering conditions for the summer images from the Greek region:
 <ol>
 <li> Filtered images with seagrass pixels ≥ 5%, resulting in 3,862 images.</li>
-<li> </li>Manually inspected these filtered images for inconsistencies, removing incorrect ones, which left 583 images.</li>
+<li> Manually inspected these filtered images for inconsistencies, removing incorrect ones, which left 583 images.</li>
 </ol>
 We then performed data augmentation on these remaining images, ensuring the augmented images contained a reasonable amount of the target class (seagrass), resulting in 5,764 images. The transformations applied sequentially were:
 <ol>
@@ -56,10 +58,10 @@ We then performed data augmentation on these remaining images, ensuring the augm
 </ol>
 This combination created diverse augmented versions of the input images, enhancing the robustness of the machine learning model by providing varied training data.  
 <br>
-To complement the data and maximize its usability for other projects and the community, 
+<p>To complement the data and maximize its usability for other projects and the community, 
 we compiled two data cards for the cleaned images from Croatia and Greece. 
 <a href="https://sites.research.google/datacardsplaybook/">Data cards</a> serve as standardized 
 documentation inspired by the principle of transparent dataset documentation for responsible AI.
 They provide a structured summary of essential aspects of the datasets, including an overview of
-the data, its origin, authorship, and ownership, among other details. The <a href="https://dagshub.com/Omdena/TriesteItalyChapter_MappingSeagrassMeadows/src/main/datasets_cards" >data cards</a> for our dataset 
-are available in the offocial repository of the project.
+the data, its origin, authorship, and ownership, among other details. The <a href="https://dagshub.com/Omdena/TriesteItalyChapter_MappingSeagrassMeadows/src/main/datasets_cards" >data cards</a> for our dataset.
+are available in the offocial repository of the project.</p>

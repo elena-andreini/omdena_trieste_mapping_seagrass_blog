@@ -42,4 +42,13 @@
         <li><strong>Depth Invariant Indices Calculation for Water Column Correction</strong>: Computes the Depth Invariant Index (DII) using logarithmic transformations of input bands, applies a water mask, estimates attenuation coefficients, and calculates DII values based on these coefficients or averages input bands for non-water pixels.</li>
     </ol>
     <p>In summary, steps 2 and 3 remove sunglint from the image using the SWM mask and apply water column correction. Finally, the image is normalized by scaling its values between 0 and 1.</p>
+<p>Below is the flowchart explaining the process in the streamlit application. </p>
+<figure>
+        <img src="prediction.png" alt="Flowchart showing the process of deploying a Streamlit application to Streamlit Cloud">
+        <figcaption style="text-align: center;">Figure 4: The process of model prediction in the streamlit application </figcaption>
+    </figure>
+<p>Here is the <a href="https://omdena-seagrass-mapping-app-trieste.streamlit.app/">link to the streamlit application deployed on streamlit community cloud. 
+And the code for the application can be found <a href="https://dagshub.com/Omdena/TriesteItalyChapter_MappingSeagrassMeadows/src/streamlit_app"> here.
+</p>
+    
     

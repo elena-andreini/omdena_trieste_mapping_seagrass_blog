@@ -272,3 +272,10 @@ th, td {
   border: 1px solid black; /* Add a border to cells */
   padding: 8px; /* Optional: Add padding for spacing */
 }
+
+#performance {
+    margin-left: auto;
+    margin-right: auto;
+    border-collapse: collapse;
+    width: 50%; /* Adjust as necessary */
+}

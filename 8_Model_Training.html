@@ -57,13 +57,13 @@ inferior results.
 </div>
 <figcaption style="text-align: center;">Figure 2: Our UNet model architecture</figcaption>
 
-<p><<b>Adam optimizer</b> with initial learning rate of 0.0001 was used to update the model weights
+<p><b>Adam optimizer</b> with initial learning rate of 0.0001 was used to update the model weights
 during training. We tapered the learning rate every 5 epochs using an <b>exponential decay
 Learning Rate Scheduler</b>. As an altenative approach, we tried using Cosine Decay for decreasing the
 learning rate to a given value during training, but that didn't improve over simple Step Exponential decay. 
 We also employed the <b>callbacks Early Stopping</b> and <b>Model Checkpoint</b> to prevent overfitting and saving the best model respectively. 
 The validation loss (val_loss) was monitored for both the callbacks with patience=5 
-for Early Stopping.<br></p>
+for Early Stopping.</p>
 <p>One of the biggest improvement in seagrass prediction was achieved when we 
 switched  to segmentation-specific loss functions. Since the dataset was <b>imbalanced</b>,
 we needed losses and metrics which would focus on the minority class (seagrass in our dataset)

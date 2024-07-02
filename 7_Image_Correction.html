@@ -1,7 +1,7 @@
-Sunglint occurs when sunlight reflects off the water surface and into the satellite optical
+<strong>Sunglint</strong> occurs when sunlight reflects off the water surface and into the satellite optical
  sensors. This effect typically happens under conditions favorable for benthic habitat 
  classification: clear skies, shallow waters (where wind easily creates waves), 
- and imagery with high spatial resolution. The Hedley algorithm helps to remove or 
+ and imagery with high spatial resolution. The <strong>Hedley algorithm</strong> helps to remove or 
  minimize sunglint, allowing for more accurate measurements of water optical properties.
 The approach is based on two main assumptions:
 <ol>
@@ -28,11 +28,11 @@ where \(R_{NIR}^{min}\)​ represents the reflectance of a pixel with no sun gli
 estimated as the minimum NIR value found in the entire image or the regression sample.
 Non-submerged pixels should be excluded from the regression, and the correction should 
 not be applied to such pixels. <br>
-In addition to sunglint correction, we apply a simplified Lyzenga approach to correct images 
+<p>In addition to sunglint correction, we apply a <b>simplified Lyzenga approach</b> to correct images 
 for reflectance attenuation due to the water column effect. 
 The Lyzenga method classifies seabed types using depth-invariant indices. It is based on a 
 radiative transfer equation that expresses the exponential relationship between radiance
-and water depth :
+and water depth :</p>
 $$R_{0}^i - R_\infty^i = (L_{b}^i - L_\infty^i) e^{-2K^i z} \tag{2}$$
 
 where  \(L_0^i\) is the BOA reflectance for band i,  \(L_\infty^i\) is the deep water reflectance
@@ -51,7 +51,7 @@ different depths for a given bottom type (e.g., sand, sediment, seagrass), plott
 radiances of those pixels versus the depth ideally define a straight line in the Cartesian plane
 with the log-corrected radiance on the y-axis and the depth on the x-axis. 
 The intersection with the y-axis depends only on the bottom type. In theory, this intersection 
-could serve as an invariant index identifying the bottom type.  However, in order to do so 
+could serve as an invariant index identifying the bottom type.  <p>However, in order to do so 
 we would need to estimate the attenuation coefficient for each band. On a practical level it’s 
 easier to estimate the ratio of attenuation coefficients, which is why \(DII\) as defined in 
 equation \ref{3} are used instead.
@@ -63,7 +63,7 @@ the image, we would obtain a set of parallel lines, all with the same slope give
  of the attenuation coefficients \(K_i\), \(K_j\). 
  Each different line would  correspond to values taken across different bottom types. 
  If we perform  the minimization of the deviations perpendicular to the regressed line 
- (Edwards and Mumby 1999) then the formula for the slope is given by
+ (Edwards and Mumby 1999) then the formula for the slope is given by:</p>
  $$ \frac{K_i}{K_i} = a + \sqrt{a^2 + 1}, \quad a = \frac{\sigma_{ii}-\sigma_{jj}}{\sigma_{ij}}$$ 
  where \(\sigma_{ij}\) is the covariance of bands \(i, j\), and \(\sigma_{ii}\) and \(\sigma_{jj}\)
  are the variances of bands \(i\) and \(j\) respectively. <br>

@@ -1,65 +1,69 @@
-The specifics of our major dataset may differ from those in other studies
+<p>The specifics of our major dataset may differ from those in other studies
 due to the variety of data preprocessing choices available. We found that
 not all preprocessing methods were always clearly explained in the 
 literature. Through our own efforts to train machine learning algorithms 
 for predicting seagrass bed presence, we learned a lot about the 
-requirements for effective datasets. Initially, before downloading the 
+requirements for effective datasets.</p> 
+<p>Initially, before downloading the 
 entire marine regions of Greece and Croatia, we selected smaller test 
 regions to evaluate if simple Random Forest models could perform pixel-level
 classification of images. This was important because Random Forest models
 can also predict the influence of individual features on the model's 
 predictive power. This test was crucial since the literature employs both
-single satellite bands and band indices for seagrass bed detection. 
-We trained Random Forest models on satellite imagery of two geographically
+single satellite bands and band indices for seagrass bed detection.</p> 
+<p>We trained Random Forest models on satellite imagery of two geographically
 distant coastal areas in Greece and calculated the influence of different 
 spectral bands versus spectral indices on successful pixel classification.
 These initial experiments, conducted without water column correction 
 algorithms, showed that single bands were generally more influential than 
 band indices. The most influential bands were the visible light bands 
-B2 (blue), B3 (green), B4 (red), and the low-resolution but 
-water-column-independent band B1 <a href="Poursanidis19">[14]</a>. 
-These findings supported using single bands for model training rather 
+<b>B2 (blue), B3 (green), B4 (red),</b> and the low-resolution but 
+<b>water-column-independent band B1</b> <a href="Poursanidis19">[14]</a>. </p>
+<p>These findings supported using single bands for model training rather 
 than pre-calculated spectral indices and suggested that water column 
-correction would be beneficial. We then attempted to systematically use Random Forest
+correction would be beneficial.</p> 
+<p>We then attempted to systematically use Random Forest
 on either summer or winter images of the entire dataset. Despite using methods to account
 for the class imbalance of seagrass bed pixels (e.g., through class weights), 
 we couldn't optimize our Random Forest model for seagrass bed detection beyond a Jaccard
 score of around 10% for that pixel class (while water and land pixel classification reached
 Jaccard scores of around 76% and 92%, respectively). Due to computational and time constraints,
-we discontinued our efforts with Random Forest. Given that the literature mainly discussed neural
+we discontinued our efforts with Random Forest.</p>
+<p>Given that the literature mainly discussed neural
 network approaches as more promising, we decided to focus on these.
-Initially, we considered various neural network architectures: DeepLabV3+, UNet variants
-(UNet++ and UNet3+), and Segformer. However, it quickly became clear that these models required
-heavy customization for our particular problem. We thus decided to focus on the simpler UNet,
+Initially, we considered various neural network architectures: <strong>DeepLabV3+, UNet variants
+(UNet++ and UNet3+), and Segformer.</strong> However, it quickly became clear that these models required
+heavy customization for our particular problem. We thus, decided to focus on the simpler UNet,
 which had shown early promise and had been reported in the literature as effective for seagrass
-bed segmentation. While training UNet models, we observed that the performance on winter images
+bed segmentation.</p> 
+<p>While training UNet models, we observed that the performance on winter images
 was very poor compared to summer images. Therefore, we decided to proceed with summer images
-to maximize model effectiveness and improve the accuracy of our seagrass detection efforts.
-This decision was reasonable: during the summer, seagrass beds in the Mediterranean are often
+to maximize model effectiveness and improve the accuracy of our seagrass detection efforts.</p>
+<p>This decision was reasonable: during the summer, seagrass beds in the Mediterranean are often
 at their peak in terms of biomass and coverage. Warmer water temperatures and increased sunlight
 promote vigorous growth, resulting in lush and expansive seagrass meadows. 
 In contrast, winter images present challenges due to reduced seagrass biomass, 
 increased turbidity from winter storms, and limited sunlight penetration, making it more 
-difficult to accurately identify and delineate seagrass beds from satellite imagery.
-Lastly, we decided to shrink our initial dataset. Despite using a standardized download protocol,
+difficult to accurately identify and delineate seagrass beds from satellite imagery.</p>
+<p>Lastly, we decided to shrink our initial dataset. Despite using a standardized download protocol,
 some images were mislabeled or only partially loaded. We also reckoned that using images with
-a higher percentage of seagrass bed pixels would enhance model training and performance.
-We applied two filtering conditions for the summer images from the Greek region:
+a higher percentage of seagrass bed pixels would enhance model training and performance.</p>
+<p>We applied two filtering conditions for the summer images from the Greek region:</p>
 <ol>
-<li> Filtered images with seagrass pixels ≥ 5%, resulting in 3,862 images.</li>
-<li> </li>Manually inspected these filtered images for inconsistencies, removing incorrect ones, which left 583 images.</li>
+<li> Filtered images with seagrass pixels ≥ 5%, resulting in <b>3,862 images.</b></li>
+<li> Manually inspected these filtered images for inconsistencies, removing incorrect ones, which left <b>583 images.</b></li>
 </ol>
-We then performed data augmentation on these remaining images, ensuring the augmented images contained a reasonable amount of the target class (seagrass), resulting in 5,764 images. The transformations applied sequentially were:
+<p>We then performed <strong>data augmentation</strong> on these remaining images, ensuring the augmented images contained a reasonable amount of the target class (seagrass), resulting in <strong>5,764 images</strong>. The transformations applied sequentially were:</p>
 <ol>
 <li>Horizontal and vertical flips chosen randomly with a probability of 0.5.</li> 
 <li> Always applying a combination of shifting, scaling, and rotating the image within specified limits (shift_limit=(-0.3, 0.3), rotate_limit=(0, 360), always_apply=True).</li>
 </ol>
 This combination created diverse augmented versions of the input images, enhancing the robustness of the machine learning model by providing varied training data.  
 <br>
-To complement the data and maximize its usability for other projects and the community, 
-we compiled two data cards for the cleaned images from Croatia and Greece. 
+<p>To complement the data and maximize its usability for other projects and the community, 
+we compiled <b>two data cards</b> for the cleaned images from Croatia and Greece. 
 <a href="https://sites.research.google/datacardsplaybook/">Data cards</a> serve as standardized 
 documentation inspired by the principle of transparent dataset documentation for responsible AI.
 They provide a structured summary of essential aspects of the datasets, including an overview of
-the data, its origin, authorship, and ownership, among other details. The <a href="https://dagshub.com/Omdena/TriesteItalyChapter_MappingSeagrassMeadows/src/main/datasets_cards" >data cards</a> for our dataset 
-are available in the offocial repository of the project.
+the data, its origin, authorship, and ownership, among other details. The <a href="https://dagshub.com/Omdena/TriesteItalyChapter_MappingSeagrassMeadows/src/main/datasets_cards" >data cards</a> for our dataset.
+are available in the offocial repository of the project.</p>

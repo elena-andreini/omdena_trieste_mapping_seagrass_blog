@@ -3,34 +3,36 @@ dataset, it was observed that UNet performed better than all other models/algori
 (even its superior variants UNet++ & UNet3+) during preliminary optimization rounds.
 UNet is a very popular architecture which was developed to segment medical images. 
 It is a fully convolutional Neural network architecture, which consists of 2 parts: 
-Encoder & Decoder. Encoder network tries to extract features from the image while Decoder 
+<b>Encoder & Decoder</b>. Encoder network tries to extract features from the image while Decoder 
 network tries to upscale the features maps to original image size. 
 There are also skip connections between Encoder and Decoder networks, 
 to retain the spatial information lost during upsampling.
 
 <img src="u-net-architecture.png"  alt="UNet">
+<figcaption style="text-align: center;">Figure 1: UNet architecture </figcaption>
 
 <h3>Our Unet model architecture</h3>
-We wrote a UNet architecture from scratch in python using the tensorflow framework. 
-For the development we used Kaggle notebooks. Out augmented dataset g was stored 
+
+We wrote a UNet architecture from scratch in python using the <b>tensorflow framework.</b> 
+For the development we used <b>Kaggle notebooks.</b> Out augmented dataset was stored 
 on Kaggle and it was directly used as input for model training. 
 The pre-processing steps mentioned in the previous section (Sunglint correction and  Water column correction)
-were performed on the fly with the help of the tf.data.Dataset object. The images were MinMax 
-normalized per channel after applying the corrections. We decided to feed in images in batch size
-of 32. The number of filters was increased from 16 to 256  in the Encoder part of the architecture. 
+were performed on the fly with the help of the <b>tf.data.Dataset</b> object. The images were <b>MinMax 
+normalized</b> per channel after applying the corrections. We decided to feed in images in batch size
+of <b>32</b>. The number of filters was increased from <b>16 to 256 </b> in the Encoder part of the architecture. 
 The feature map size was reduced by half using a MaxPooling layer. To upsample the feature map 
 size, the Conv2DTranspose layer was used in the Decoder part of the architecture. 
 To prevent overfitting we employed 2 approaches:
 <ol>
     <li>
-        BatchNormalization was applied before ReLU activation for each Convolution layer in the model.
+        <b>BatchNormalization</b> was applied before ReLU activation for each Convolution layer in the model.
     </li>
     <li>
-        L2 Kernel regularizer was used for each Convolution layer in the model.
+        <b>L2 Kernel regularizer</b> was used for each Convolution layer in the model.
     </li>
 </ol>
 The last layer had 3 filters, one for each of the classes i.e. seagrass, sea and land with 
-softmax activation applied on them to get output as probabilities. These parameters were found
+<b>softmax activation</b> applied on them to get output as probabilities. These parameters were found
 empirically. We also tried different number of filters in UNet, starting with 32 - 512 and 64 - 1024
 in the Encoder part, but both configurations tended to overfit very heavily. 
 Likewise, we tried using Dropout instead of Batch Normalization to reduce overfitting, 
@@ -49,31 +51,32 @@ inferior results.
     <div class="image-container">
 
         <img src="unet_summer_images_augmented_wcc_final.h5.svg" alt="Cropped image" >
-
+        
     </div>
     </a>
 </div>
+<figcaption style="text-align: center;">Figure 2: Our UNet model architecture</figcaption>
 
-Adam optimizer with initial learning rate of 0.0001 was used to update the model weights
-during training. We tapered the learning rate every 5 epochs using an exponential decay
-Learning Rate Scheduler. As an altenative approach, we tried using Cosine Decay for decreasing the
+<p><b>Adam optimizer</b> with initial learning rate of 0.0001 was used to update the model weights
+during training. We tapered the learning rate every 5 epochs using an <b>exponential decay
+Learning Rate Scheduler</b>. As an altenative approach, we tried using Cosine Decay for decreasing the
 learning rate to a given value during training, but that didn't improve over simple Step Exponential decay. 
-We also employed the callbacks Early Stopping and Model Checkpoint to prevent overfitting and saving the best model respectively. 
+We also employed the <b>callbacks Early Stopping</b> and <b>Model Checkpoint</b> to prevent overfitting and saving the best model respectively. 
 The validation loss (val_loss) was monitored for both the callbacks with patience=5 
-for Early Stopping.<br>
-One of the biggest improvement in seagrass prediction was achieved when we 
-switched  to segmentation-specific loss functions. Since the dataset was imbalanced,
+for Early Stopping.</p>
+<p>One of the biggest improvement in seagrass prediction was achieved when we 
+switched  to segmentation-specific loss functions. Since the dataset was <b>imbalanced</b>,
 we needed losses and metrics which would focus on the minority class (seagrass in our dataset)
-and would penalize wrong predicitons for the minority class.
-Two such losses which served our purpose were: Dice loss and Focal Tversky loss. 
+and would penalize wrong predicitons for the minority class.</p>
+Two such losses which served our purpose were: <b>Dice loss</b> and <b>Focal Tversky loss</b>. 
 We calculated a total loss as a combination of the two. We tried out different 
 combinations of weights for tne combined losses. It turned out that giving more weight to Focal Tversky 
 loss over Dice loss worked best for our case. <br>
-The Dice loss is derived from the Dice coefficient, which is similar to the IOU (Intersection Over Union)
+The <b>Dice loss</b> is derived from the Dice coefficient, which is similar to the <b>IOU (Intersection Over Union)</b>
 score, but it assigns more weight to True Positives :
 $$ \text{Dice Loss} =  1 - \text{Dice Coefficient}$$
 $$ \text{Dice Coefficient} = \frac{2\cdot TP}{FP + 2\cdot TP + FN}$$
-The Focal Tversky loss is obtained from Tversky Index, a generalization of both Dice coefficient 
+The <b>Focal Tversky loss</b> is obtained from Tversky Index, a generalization of both Dice coefficient 
 and the Jaccard Index. The Tversky index adds two parameters, \(\alpha\) and \(\beta\), where 
 \(\alpha + \beta = 1\).The Focal Tversky loss is further generalization of Tversky loss, 
 which uses another parameter, \(\gamma\), controlling the non-linearity of the loss. 
@@ -91,6 +94,6 @@ as auxiliary metrics
 $$ \text{IOU Score} = \frac{TP}{TP + FP + FN}$$
 $$ \text{Accuracy} = \frac{TP + TN}{TP + TN + FP + FN}$$
 <h3>Computational Resources</h3>
-The model was trained using Kaggle kernel with NVIDIA TESLA P100 GPU and 
-the training took approximately 2 hours.
+The model was trained using Kaggle kernel with <b>NVIDIA TESLA P100 GPU</b> and 
+the training took <b>approximately 2 hours</b>.
  

@@ -70,7 +70,7 @@ we needed losses and metrics which would focus on the minority class (seagrass i
 and would penalize wrong predicitons for the minority class.</p>
 Two such losses which served our purpose were: <b>Dice loss</b> and <b>Focal Tversky loss</b>. 
 We calculated a total loss as a combination of the two. We tried out different 
-combinations of weights for tne combined losses. It turned out that giving more weight to Focal Tversky 
+combinations of weights for the combined losses. It turned out that giving more weight to Focal Tversky 
 loss over Dice loss worked best for our case. <br>
 The <b>Dice loss</b> is derived from the Dice coefficient, which is similar to the <b>IOU (Intersection Over Union)</b>
 score, but it assigns more weight to True Positives :
@@ -80,17 +80,17 @@ The <b>Focal Tversky loss</b> is obtained from Tversky Index, a generalization o
 and the Jaccard Index. The Tversky index adds two parameters, \(\alpha\) and \(\beta\), where 
 \(\alpha + \beta = 1\).The Focal Tversky loss is further generalization of Tversky loss, 
 which uses another parameter, \(\gamma\), controlling the non-linearity of the loss. 
-We chose \(\alpha = 0.7\) and \(\beta = 0.3\) and \(\gamma = 5.\). We chose an \(\alpha\) greater
+We chose \(\alpha = 0.7\) and \(\beta = 0.3\) and \(\gamma = 5.\). We chose an \(\alpha\) greater than
 \(\beta\) because False Negatives were more important
 to us than False Positives (we didn’t want to miss out any region where there was seagrass
- resent and the model predicted otherwise). 
- We explored different hyperparameter values but the above choice yielded the best results.
+ present and the model predicted otherwise). 
+ We explored different hyperparameter values, however, the above choice yielded the best results.
  $$ \text{Tversky Index} = \frac{TP}{TP + \alpha\cdot FN + \beta\cdot FP}$$
  $$ \text{Focal Tversky Loss} = (1 - \text{Tversky Index})^\gamma $$
- As already stated, we used a combination of those losses for out total loss 
+ As already stated, we used a combination of those losses for calculating total loss as below. 
  $$\text{Total Loss} = \text{Dice Loss} + 2\cdot\text{Focal Tversky Loss} $$
- We adopted the Dice Coefficient as the primary metric, but we also kept track  IOU and accuracy
-as auxiliary metrics
+ We adopted the Dice Coefficient as the primary metric, but we also kept track of IOU and accuracy
+as auxiliary metrics.
 $$ \text{IOU Score} = \frac{TP}{TP + FP + FN}$$
 $$ \text{Accuracy} = \frac{TP + TN}{TP + TN + FP + FN}$$
 <h3>Computational Resources</h3>

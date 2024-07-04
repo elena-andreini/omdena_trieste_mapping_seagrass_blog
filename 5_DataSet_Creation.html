@@ -20,7 +20,7 @@ Sentinel-2 images through the <strong>GEE</strong> (Google Earth Engine)
 package for python; here, a systematic framework on how to 
 download low resolution bands to a higher resolution is 
 automatically provided. And this does what. Even though 
-there are methods how to reliably interpolate a higher 
+there are methods on how to reliably interpolate a higher 
 resolution for lower resolution bands 
 (e.g. the Sen2Res plugin for SNAP - DOI:10.1109/TGRS.2017.2694881),
 we did not use them due to computational and time constraints.
@@ -53,7 +53,7 @@ reduce the predictive power of the model. Therefore, we settled on
 taking two images (recorded on different days) per site. </p>
 <p>During our 
 preliminary research, we had learned that all species of seagrass
-exhibit seasonal variance in their color (cfr. e.g. <a ref="#Sandoval22">[6]</a>). Thus, we
+exhibit seasonal variance in their color (cfr. e.g. <a href="#Sandoval22">[6]</a>). Thus, we
 anticipated that it would be better to narrow down the time 
 period in which to take a set of duplicate images. Since we 
 could not find information in the literature which time of the
@@ -66,7 +66,7 @@ processing.</p>
 images of interest for the given time periods through the <b>Google Earth Engine API.</b>
 Download was performed through the accounts of several users involving more than a 
 dozen collaborators. Participants would then use standardized python protocols - 
-mainly based on the python library rasterio - to create masks for land, 
+mainly based on the python library Rasterio - to create masks for land, 
 water, and seagrass directly based on the open-source GT data from <b>Greece and Croatia</b>,
 as well as <b>land masks</b> based on the <b>OpenStreetMap project</b> (downloaded in February 2024).
 This resulted in two data sets of raw Sentinel-2 images and corresponding masks - 

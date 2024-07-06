@@ -39,7 +39,7 @@
             <br>SWM Calculation Formula: <code>SWM = (B2 + B3) / (B8 + B11)</code>, where B2 is the Blue band, B3 is the Green band, B8 is the NIR band, and B11 is the SWIR band.
         </li>
         <li><strong>Sunglint Removal</strong>: Removes sunglint from the image bands using a linear regression approach with the NIR band as a reference. Median blurring is applied to smooth the deglinted bands, which are then merged with the NIR and other bands.</li>
-        <li><strong>Depth Invariant Indices Calculation for Water Column Correction</strong>: Computes the Depth Invariant Index (DII) using logarithmic transformations of input bands, applies a water mask, estimates attenuation coefficients, and calculates DII values based on these coefficients or averages input bands for non-water pixels.</li>
+        <li><strong>Depth Invariant Indices Calculation for Water Column Correction</strong>: Computes the Depth Invariant Index (DII) using logarithmic transformations of input bands, applies a water mask, estimates attenuation coefficients, and calculates DII values based on these coefficients for water pixels and averaging the input bands for non-water pixels.</li>
     </ol>
     <p>In summary, steps 2 and 3 remove sunglint from the image using the SWM mask and apply water column correction. Finally, the image is normalized by scaling its values between 0 and 1.</p>
 <p>Below is the flowchart explaining the process in the streamlit application. </p>
